@@ -2,13 +2,13 @@ package fr.cs.authentificationproject.dto;
 
 
 import fr.cs.authentificationproject.entities.User;
+
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Builder
 public class UserDto {

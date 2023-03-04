@@ -2,13 +2,13 @@ package fr.cs.authentificationproject.services.implement;
 
 import fr.cs.authentificationproject.auth.AuthenticationRequest;
 import fr.cs.authentificationproject.auth.AuthenticationResponse;
-import fr.cs.authentificationproject.auth.RegisterRequest;
 import fr.cs.authentificationproject.config.JwtService;
 import fr.cs.authentificationproject.dto.UserDto;
 import fr.cs.authentificationproject.entities.Role;
 import fr.cs.authentificationproject.entities.User;
 import fr.cs.authentificationproject.repositories.UserRepository;
 import fr.cs.authentificationproject.services.UserService;
+import fr.cs.authentificationproject.validators.ObjectsValidator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,17 +33,19 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ObjectsValidator<UserDto> validator;
 
 
     @Override
-    public AuthenticationResponse registerAdmin(RegisterRequest request) {
-
+    @Transactional
+    public AuthenticationResponse registerAdmin(UserDto request) {
+        validator.validate(request);
         Optional<User> userOptional = userRepository.findUserByEmail(request.getEmail());
 
         if(userOptional.isPresent())
             return AuthenticationResponse.builder().build();
 
-        var user = User.builder()
+        var user = UserDto.toEntity(request).builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
@@ -61,14 +63,15 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public AuthenticationResponse registerUser(RegisterRequest request) {
-
+    @Transactional
+    public AuthenticationResponse registerUser(UserDto request) {
+        validator.validate(request);
         Optional<User> userOptional = userRepository.findUserByEmail(request.getEmail());
 
         if(userOptional.isPresent())
             return AuthenticationResponse.builder().build();
 
-        var user = User.builder()
+        var user = UserDto.toEntity(request).builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
@@ -106,6 +109,7 @@ public class UserServiceImp implements UserService {
     public void delete(Integer id) {
         userRepository.deleteById(id);
     }
+
     @Override
     @Transactional
     public List<UserDto> findAll() {
@@ -144,6 +148,11 @@ public class UserServiceImp implements UserService {
         updateUser.setLastName(lastName);
         updateUser.setPassword(passwordEncoder.encode(password));
 
-
     }
+    @Override
+    public Integer update(UserDto userDto) {
+        User user = UserDto.toEntity(userDto);
+        return userRepository.save(user).getIdUser();
+    }
+
 }

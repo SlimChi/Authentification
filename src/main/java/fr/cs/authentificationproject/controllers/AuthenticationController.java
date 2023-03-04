@@ -3,7 +3,7 @@ package fr.cs.authentificationproject.controllers;
 
 import fr.cs.authentificationproject.auth.AuthenticationRequest;
 import fr.cs.authentificationproject.auth.AuthenticationResponse;
-import fr.cs.authentificationproject.auth.RegisterRequest;
+import fr.cs.authentificationproject.dto.UserDto;
 import fr.cs.authentificationproject.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +23,14 @@ public class AuthenticationController {
 
 
     @PostMapping("register/user")
-    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody UserDto request){
 
         return ResponseEntity.ok(userService.registerUser(request));
 
     }
 
     @PostMapping("register/admin")
-    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody RegisterRequest request){
+    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody UserDto request){
 
         return ResponseEntity.ok(userService.registerAdmin(request));
 

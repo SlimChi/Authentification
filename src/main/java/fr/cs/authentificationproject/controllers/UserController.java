@@ -26,14 +26,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUserById(@PathParam("id") Integer id){
-
-        Optional<User> user = userService.getUserById(id);
-        if(user.isPresent())
-            return ResponseEntity.ok(user);
-        else
-            return ResponseEntity.notFound().build();
+    @GetMapping("/{user-id}")
+    public ResponseEntity<UserDto> findById(
+            @PathVariable("user-id") Integer userId
+    ) {
+        return ResponseEntity.ok(userService.findById(userId));
     }
 
 
