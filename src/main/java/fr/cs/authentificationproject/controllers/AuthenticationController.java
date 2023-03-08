@@ -22,23 +22,23 @@ public class AuthenticationController {
     private final UserService userService;
 
 
-    @PostMapping("register/user")
-    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody UserDto request){
+    @PostMapping("register/admin")
+    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody UserDto user) {
 
-        return ResponseEntity.ok(userService.registerUser(request));
+        return ResponseEntity.ok(userService.registerAdmin(user));
 
     }
 
-    @PostMapping("register/admin")
-    public ResponseEntity<AuthenticationResponse> registerAdmin(@RequestBody UserDto request){
+    @PostMapping("register/user")
+    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody UserDto user) {
 
-        return ResponseEntity.ok(userService.registerAdmin(request));
+        return ResponseEntity.ok(userService.registerUser(user));
 
     }
 
     @PostMapping("authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest user) {
 
-        return ResponseEntity.ok(userService.authenticate(request));
+        return ResponseEntity.ok(userService.authenticate(user));
     }
 }

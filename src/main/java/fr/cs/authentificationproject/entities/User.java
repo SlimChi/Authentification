@@ -2,10 +2,8 @@ package fr.cs.authentificationproject.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,20 +12,17 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user", schema = "public", catalog = "MYPRINT")
+@Table(name = "_user")
 public class User implements UserDetails {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
-    @Column(name = "id_user")
-    private int idUser;
-
-
+    @GeneratedValue
+    private Integer id;
     private String firstName;
-
 
     private String lastName;
 
@@ -40,10 +35,22 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_role")
     private Role role;
 
+   // @OneToMany (fetch = FetchType.EAGER)
+    //@JoinTable(name = "posseder",
+    //joinColumns = @JoinColumn(name = "id_adresse"),
+    //inverseJoinColumns = @JoinColumn(name = "id_user"))
+    //private List<Adresse> listAdresse;
+
+    @OneToMany(fetch =FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private List<Adresse> adresse;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getRoleName()));
     }
+
 
     @Override
     public String getUsername() {

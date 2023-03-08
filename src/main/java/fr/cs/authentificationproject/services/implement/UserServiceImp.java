@@ -39,11 +39,8 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public AuthenticationResponse registerAdmin(UserDto request) {
-        validator.validate(request);
-        Optional<User> userOptional = userRepository.findUserByEmail(request.getEmail());
+//        validator.validate(request);
 
-        if(userOptional.isPresent())
-            return AuthenticationResponse.builder().build();
 
         var user = UserDto.toEntity(request).builder()
                 .firstName(request.getFirstName())
@@ -65,11 +62,8 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public AuthenticationResponse registerUser(UserDto request) {
-        validator.validate(request);
-        Optional<User> userOptional = userRepository.findUserByEmail(request.getEmail());
+//        validator.validate(request);
 
-        if(userOptional.isPresent())
-            return AuthenticationResponse.builder().build();
 
         var user = UserDto.toEntity(request).builder()
                 .firstName(request.getFirstName())
@@ -87,6 +81,7 @@ public class UserServiceImp implements UserService {
                 .build();
 
     }
+
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -147,12 +142,12 @@ public class UserServiceImp implements UserService {
         updateUser.setFirstName(firstName);
         updateUser.setLastName(lastName);
         updateUser.setPassword(passwordEncoder.encode(password));
-
     }
+
     @Override
     public Integer update(UserDto userDto) {
         User user = UserDto.toEntity(userDto);
-        return userRepository.save(user).getIdUser();
+        return userRepository.save(user).getId();
     }
 
 }

@@ -18,7 +18,8 @@ public interface UserService{
 
   AuthenticationResponse registerUser(UserDto request);
 
-  AuthenticationResponse authenticate(AuthenticationRequest request);
+
+    AuthenticationResponse authenticate(AuthenticationRequest request);
 
   void delete(Integer id);
 

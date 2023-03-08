@@ -6,19 +6,20 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role", schema = "public", catalog = "MYPRINT")
+@Table(name = "role")
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_role")
     private int idRole;
-    @Basic
+
     @Column(name = "role_name")
     private String roleName;
 

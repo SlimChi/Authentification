@@ -1,4 +1,4 @@
-package fr.cs.authentificationproject.handlers;
+package fr.cs.authentificationproject.advice;
 
 
 import fr.cs.authentificationproject.exceptions.ObjectValidationException;
@@ -51,16 +51,16 @@ public class GlobalExceptionHandler {
         .status(HttpStatus.NOT_ACCEPTABLE)
         .body(representation);
   }
-
-  @ExceptionHandler(DataIntegrityViolationException.class)
-  public ResponseEntity<ExceptionRepresentation> handleException() {
-    ExceptionRepresentation representation = ExceptionRepresentation.builder()
-        .errorMessage("A user already exists with the provided Email")
-        .build();
-    return ResponseEntity
-        .status(HttpStatus.BAD_REQUEST)
-        .body(representation);
-  }
+//
+//  @ExceptionHandler(DataIntegrityViolationException.class)
+//  public ResponseEntity<ExceptionRepresentation> handleException() {
+//    ExceptionRepresentation representation = ExceptionRepresentation.builder()
+//        .errorMessage("A user already exists with the provided Email")
+//        .build();
+//    return ResponseEntity
+//        .status(HttpStatus.BAD_REQUEST)
+//        .body(representation);
+//  }
 
   @ExceptionHandler(DisabledException.class)
   public ResponseEntity<ExceptionRepresentation> handleDisabledException() {
