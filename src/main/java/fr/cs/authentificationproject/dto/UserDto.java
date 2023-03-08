@@ -6,6 +6,7 @@ import fr.cs.authentificationproject.entities.User;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class UserDto {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .role(user.getRoles())
                 .build();
     }
 

@@ -51,6 +51,7 @@ public class UserController {
     }
 
 
+
     @DeleteMapping("/{user-id}")
     public ResponseEntity<Void> delete(
             @PathVariable("user-id") Integer userId
@@ -60,9 +61,9 @@ public class UserController {
     }
 
     @PostMapping("/{id}/adresses/add")
-    public ResponseEntity addAdresseForUser(@PathParam("id") Integer id, @RequestBody AdresseDto adresse) {
+    public ResponseEntity addAdresseToUser(@RequestBody AdresseDto adresse) {
 
-        adresseService.addAdresseToUser(id, adresse);
+        adresseService.addAdresseToUser(adresse);
         return ResponseEntity.ok().build();
 
     }

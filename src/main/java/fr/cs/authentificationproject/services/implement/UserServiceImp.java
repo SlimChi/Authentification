@@ -47,7 +47,7 @@ public class UserServiceImp implements UserService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(new Role(1,"ADMIN"))
+
                 .build();
         userRepository.save(user);
 
@@ -133,8 +133,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void updateUser(Integer id, String firstName, String lastName, String email, String password){
-
+    @Transactional
+    public void updateUser(Integer id, String firstName,String lastName,String email,String password){
 
         User updateUser = userRepository.findById(id).orElseThrow();
 
@@ -142,12 +142,8 @@ public class UserServiceImp implements UserService {
         updateUser.setFirstName(firstName);
         updateUser.setLastName(lastName);
         updateUser.setPassword(passwordEncoder.encode(password));
+
     }
 
-    @Override
-    public Integer update(UserDto userDto) {
-        User user = UserDto.toEntity(userDto);
-        return userRepository.save(user).getId();
-    }
 
 }

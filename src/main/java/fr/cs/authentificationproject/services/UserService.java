@@ -33,7 +33,7 @@ public interface UserService{
 
   Optional<User> getUserById(Integer id);
 
+  @Transactional
   void updateUser(Integer id, String firstName, String lastName, String email, String password);
 
-    Integer update(UserDto userDto);
 }

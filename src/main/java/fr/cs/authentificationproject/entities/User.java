@@ -35,12 +35,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_role")
     private Role role;
 
-   // @OneToMany (fetch = FetchType.EAGER)
-    //@JoinTable(name = "posseder",
-    //joinColumns = @JoinColumn(name = "id_adresse"),
-    //inverseJoinColumns = @JoinColumn(name = "id_user"))
-    //private List<Adresse> listAdresse;
-
     @OneToMany(fetch =FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private List<Adresse> adresse;
@@ -55,11 +49,6 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public String getPassword(){
-        return password;
     }
 
     @Override
