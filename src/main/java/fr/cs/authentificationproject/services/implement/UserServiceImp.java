@@ -17,7 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -51,6 +53,11 @@ public class UserServiceImp implements UserService {
                 .build();
         userRepository.save(user);
 
+        var savedUser = userRepository.save(user);
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", savedUser.getId());
+        claims.put("fullName", savedUser.getFirstName() + " " + savedUser.getLastName());
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -74,6 +81,10 @@ public class UserServiceImp implements UserService {
                 .build();
         userRepository.save(user);
 
+        var savedUser = userRepository.save(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", savedUser.getId());
+        claims.put("fullName", savedUser.getFirstName() + " " + savedUser.getLastName());
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -93,6 +104,11 @@ public class UserServiceImp implements UserService {
 
         var user = userRepository.findUserByEmail(request.getEmail())
                 .orElseThrow();
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("fullName", user.getFirstName() + " " + user.getLastName());
+
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -138,6 +154,7 @@ public class UserServiceImp implements UserService {
 
         User updateUser = userRepository.findById(id).orElseThrow();
 
+        updateUser.setId(id);
         updateUser.setEmail(email);
         updateUser.setFirstName(firstName);
         updateUser.setLastName(lastName);
