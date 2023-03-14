@@ -1,11 +1,10 @@
 package fr.cs.authentificationproject.services.implement;
 
 import fr.cs.authentificationproject.dto.AdresseDto;
+import fr.cs.authentificationproject.dto.AdresseResponse;
 import fr.cs.authentificationproject.entities.Adresse;
-import fr.cs.authentificationproject.entities.Role;
-import fr.cs.authentificationproject.entities.TypeAdresse;
-import fr.cs.authentificationproject.entities.User;
 import fr.cs.authentificationproject.repositories.AdresseRepository;
+import fr.cs.authentificationproject.repositories.UserRepository;
 import fr.cs.authentificationproject.services.AdresseService;
 import fr.cs.authentificationproject.validators.ObjectsValidator;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,8 +25,7 @@ public class AdresseServImpl implements AdresseService {
 
     private final AdresseRepository adresseRepository;
     private ObjectsValidator<AdresseDto> validator;
-
-
+    private final UserRepository userRepository;
 
 
     @Override
@@ -38,25 +36,30 @@ public class AdresseServImpl implements AdresseService {
 
     @Override
     @Transactional
-    public void addAdresseToUser(AdresseDto adresse){
-        Adresse address = AdresseDto.toEntity(adresse);
-        adresseRepository.save(address);
+    public void addAdresseToUser(AdresseDto dto){
 
+        Adresse adresse = AdresseDto.toEntity(dto);
+
+        adresseRepository.save(adresse).getUser();
     }
 
+    @Override
+    public Integer save(AdresseResponse dto) {
+        return null;
+    }
 
     @Override
-    public List<AdresseDto> findAll() {
+    public List<AdresseResponse> findAll() {
         return adresseRepository.findAll()
                 .stream()
-                .map(AdresseDto::fromEntity)
+                .map(AdresseResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AdresseDto findById(Integer id) {
+    public AdresseResponse findById(Integer id) {
         return adresseRepository.findById(id)
-                .map(AdresseDto::fromEntity)
+                .map(AdresseResponse::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException("No address found with the ID : " + id));
     }
 
@@ -73,6 +76,8 @@ public class AdresseServImpl implements AdresseService {
         updateAdresse.setVille(ville);
 
     }
+
+
 
     @Override
     public void delete(Integer id) {

@@ -1,6 +1,7 @@
 package fr.cs.authentificationproject.controllers;
 
 import fr.cs.authentificationproject.dto.AdresseDto;
+import fr.cs.authentificationproject.dto.AdresseResponse;
 import fr.cs.authentificationproject.entities.Adresse;
 import fr.cs.authentificationproject.entities.TypeAdresse;
 import fr.cs.authentificationproject.services.AdresseService;
@@ -22,21 +23,21 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 public class AdresseController {
 
     private final AdresseService service;
+//
+//    @PostMapping("/")
+//    public ResponseEntity<Integer> save(
+//            @RequestBody AdresseResponse addressDto
+//    ) {
+//        return ResponseEntity.ok(service.save(addressDto));
+//    }
 
-    @PostMapping("/")
-    public ResponseEntity<Integer> save(
-            @RequestBody AdresseDto addressDto
-    ) {
-        return ResponseEntity.ok(service.save(addressDto));
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<AdresseDto>> findAll() {
+    @GetMapping("/findAll")
+    public ResponseEntity<List<AdresseResponse>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/{address-id}")
-    public ResponseEntity<AdresseDto> findById(
+    @GetMapping("/findById")
+    public ResponseEntity<AdresseResponse> findById(
             @PathVariable("address-id") Integer addressId
     ) {
         return ResponseEntity.ok(service.findById(addressId));

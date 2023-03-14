@@ -4,8 +4,10 @@ import fr.cs.authentificationproject.auth.AuthenticationRequest;
 import fr.cs.authentificationproject.auth.AuthenticationResponse;
 import fr.cs.authentificationproject.config.JwtService;
 import fr.cs.authentificationproject.dto.UserDto;
+import fr.cs.authentificationproject.entities.Adresse;
 import fr.cs.authentificationproject.entities.Role;
 import fr.cs.authentificationproject.entities.User;
+import fr.cs.authentificationproject.repositories.AdresseRepository;
 import fr.cs.authentificationproject.repositories.UserRepository;
 import fr.cs.authentificationproject.services.UserService;
 import fr.cs.authentificationproject.validators.ObjectsValidator;
@@ -35,6 +37,7 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final AdresseRepository adresseRepository;
     private final ObjectsValidator<UserDto> validator;
 
 
@@ -49,7 +52,7 @@ public class UserServiceImp implements UserService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-
+                .role(new Role(1,"ADMIN"))
                 .build();
         userRepository.save(user);
 

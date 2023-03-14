@@ -2,14 +2,10 @@ package fr.cs.authentificationproject.dto;
 
 import fr.cs.authentificationproject.entities.Adresse;
 import fr.cs.authentificationproject.entities.TypeAdresse;
-import fr.cs.authentificationproject.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -43,15 +39,17 @@ public class AdresseDto {
             .build();
   }
 
+
   public static Adresse toEntity(AdresseDto adresse) {
     return Adresse.builder()
             .id(adresse.getId())
             .rue(adresse.getRue())
             .complement(adresse.getComplement())
             .codePostal(adresse.getCodePostal())
-            .user(adresse.getUserId())
+           .user(adresse.getUserId())
             .typeAdresse(adresse.getTypeAdresse())
             .ville(adresse.getVille())
         .build();
   }
+
 }

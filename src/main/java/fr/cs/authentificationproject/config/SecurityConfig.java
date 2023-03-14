@@ -1,6 +1,5 @@
 package fr.cs.authentificationproject.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +7,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +18,6 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter  jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,14 +38,13 @@ public class SecurityConfig {
                         "/webjars/**",
                         "/swagger-ui.html",
 
-
                 "/auth/**"
                 )
                 .permitAll()
                 .requestMatchers("/hello")
-                .hasAnyAuthority("ADMIN")
+                .hasAnyAuthority("USER","STAFF","ADMIN")
                 .requestMatchers("/test")
-                .hasAnyAuthority("USER","ADMIN")
+                .hasAnyAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -58,10 +55,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors();
 
-
-
         return http.build();
     }
+
 }
 
 

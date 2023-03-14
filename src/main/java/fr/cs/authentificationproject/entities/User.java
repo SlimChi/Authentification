@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private List<Adresse> adresse;
 
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getRoleName()));

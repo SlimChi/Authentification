@@ -20,24 +20,22 @@ import java.util.List;
 @Tag(name = "User")
 public class UserController {
 
-
     private final UserService userService;
     private final AdresseService adresseService;
 
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<List<UserDto>> findAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/{user-id}")
+    @GetMapping("/FindById")
     public ResponseEntity<UserDto> findById(
             @PathVariable("user-id") Integer userId
     ) {
         return ResponseEntity.ok(userService.findById(userId));
     }
 
-
-    @PutMapping("/{id}")
+    @PutMapping("/UpdateUserById")
     public ResponseEntity updateUser(@PathParam("id")Integer id,
                                      @RequestParam String firstName,
                                      @RequestParam String lastName,
@@ -51,16 +49,15 @@ public class UserController {
     }
 
 
-
-    @DeleteMapping("/{user-id}")
+    @DeleteMapping("/{deleteById}")
     public ResponseEntity<Void> delete(
-            @PathVariable("user-id") Integer userId
+            @PathVariable("id_user") Integer userId
     ) {
         userService.delete(userId);
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("/{id}/adresses/add")
+    @PostMapping("/{id}/addAdresseToUser")
     public ResponseEntity addAdresseToUser(@RequestBody AdresseDto adresse) {
 
         adresseService.addAdresseToUser(adresse);
